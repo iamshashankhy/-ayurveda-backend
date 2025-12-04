@@ -12,6 +12,7 @@ def health_check(request):
 def root_view(request):
     return JsonResponse({
         'message': 'Welcome to Ayurveda Backend API',
+        'version': '1.0.0',
         'endpoints': {
             'health': '/health/',
             'admin': '/admin/',

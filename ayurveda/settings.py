@@ -1,6 +1,15 @@
+# Add this to your settings.py
 import os
-from datetime import timedelta
 from pathlib import Path
+
+# ... existing code ...
+
+# Static files configuration
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# ... rest of your settings ...
+from datetime import timedelta
 from typing import Dict, Any
 
 # Handle dotenv import gracefully
