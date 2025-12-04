@@ -1,0 +1,37 @@
+services:
+  # Django Backend
+  - type: web
+    name: ayurveda-django-backend
+    env: python
+    buildCommand: "pip install -r django_backend/requirements.txt"
+    startCommand: "gunicorn --bind 0.0.0.0:$PORT django_backend.ayurveda.wsgi:application"
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        sync: false
+      - key: DJANGO_DEBUG
+        value: False
+      - key: CLIENT_ORIGIN
+        value: https://ayurveda-frontend.vercel.app
+
+  # Express Server
+  - type: web
+    name: ayurveda-express-server
+    env: node
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    dir: server
+    envVars:
+      - key: CLIENT_ORIGIN
+        value: https://ayurveda-frontend.vercel.app
+
+  # Frontend
+  - type: web
+    name: ayurveda-frontend
+    env: static
+    buildCommand: "npm install && npm run build"
+    staticPublishPath: project/out
+    envVars:
+      - key: NEXT_PUBLIC_DJANGO_API_BASE_URL
+        value: https://ayurveda-django-backend.onrender.com
+      - key: NEXT_PUBLIC_EXPRESS_API_BASE_URL
+        value: https://ayurveda-express-server.onrender.com
